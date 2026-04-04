@@ -38,13 +38,40 @@ exports.createRecord = async (req, res) => {
 
 
 exports.getRecords = async (req, res) => {
-  const { page = 1, limit = 10, type, category } = req.query;
+  const {
+    page = 1,
+    limit = 10,
+    type,
+    category,
+    search,
+    startDate,
+    endDate
+  } = req.query;
+
+  const where = {
+    isDeleted: false,
+    ...(type && { type }),
+    ...(category && { category }),
+
+    // 🔍 Search (category + notes)
+    ...(search && {
+      OR: [
+        { category: { contains: search } },
+        { notes: { contains: search } }
+      ]
+    }),
+
+    // 📅 Date filtering
+    ...(startDate && endDate && {
+      date: {
+        gte: new Date(startDate),
+        lte: new Date(endDate)
+      }
+    })
+  };
 
   const records = await prisma.financialRecord.findMany({
-    where: { 
-        isDeleted: false,
-        ...(type && { type }),
-        ...(category && { category }) },
+    where,
     skip: (page - 1) * limit,
     take: parseInt(limit)
   });
