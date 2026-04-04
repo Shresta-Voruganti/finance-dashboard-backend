@@ -1,4 +1,5 @@
 const swaggerJsdoc = require("swagger-jsdoc");
+const path = require("path");
 
 const options = {
   definition: {
@@ -6,11 +7,10 @@ const options = {
     info: {
       title: "Finance API",
       version: "1.0.0",
-      description: "Finance Dashboard Backend API"
     },
     servers: [
       {
-        url: "http://localhost:3000"
+        url: "https://finance-dashboard-backend-lc8v.onrender.com"
       }
     ],
     components: {
@@ -23,9 +23,7 @@ const options = {
       }
     }
   },
-
-  // 🔥 THIS IS KEY
-  apis: ["./src/routes/*.js"]  // keep it simple (no ** for now)
+  apis: [path.join(__dirname, "routes/*.js")] // 🔥 FIX
 };
 
 const swaggerSpec = swaggerJsdoc(options);
