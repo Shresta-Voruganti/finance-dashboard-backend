@@ -69,6 +69,15 @@ http://localhost:3000
 
 ---
 
+## Security
+
+- JWT Authentication implemented
+- Role-Based Access Control (RBAC)
+- 401 Unauthorized for invalid or missing tokens
+- 403 Forbidden for restricted actions
+
+---
+
 ## API Endpoints
 
 ### Auth
