@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/recordController");
-const { authorize } = require("../middleware/auth");
-
+const auth = require("../middleware/auth");
+const authorize = require("../middleware/authorize");
 /**
  * @swagger
  * /records:
@@ -15,7 +15,7 @@ const { authorize } = require("../middleware/auth");
  *       200:
  *         description: Record created
  */
-router.post("/", authorize(["ADMIN"]), controller.createRecord);
+router.post("/", auth, authorize(["ADMIN"]), controller.createRecord);
 
 /**
  * @swagger
@@ -29,7 +29,7 @@ router.post("/", authorize(["ADMIN"]), controller.createRecord);
  *       200:
  *         description: List of records
  */
-router.get("/", authorize(["ADMIN", "ANALYST"]), controller.getRecords);
+router.get("/", auth, authorize(["ADMIN", "ANALYST"]), controller.getRecords);
 
 /**
  * @swagger
@@ -49,7 +49,7 @@ router.get("/", authorize(["ADMIN", "ANALYST"]), controller.getRecords);
  *       200:
  *         description: Record updated
  */
-router.patch("/:id", authorize(["ADMIN"]), controller.updateRecord);
+router.patch("/:id", auth, authorize(["ADMIN"]), controller.updateRecord);
 
 /**
  * @swagger
@@ -69,6 +69,6 @@ router.patch("/:id", authorize(["ADMIN"]), controller.updateRecord);
  *       200:
  *         description: Record deleted
  */
-router.delete("/:id", authorize(["ADMIN"]), controller.deleteRecord);
+router.delete("/:id", auth, authorize(["ADMIN"]), controller.deleteRecord);
 
 module.exports = router;
