@@ -1,8 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/userController");
-const { authorize } = require("../middleware/auth");
-
+const { authenticate, authorize } = require("../middleware/auth");
 /**
  * @swagger
  * /users:
@@ -15,7 +14,7 @@ const { authorize } = require("../middleware/auth");
  *       200:
  *         description: User created
  */
-router.post("/", authorize(["ADMIN"]), controller.createUser);
+router.post("/", authenticate, authorize(["ADMIN"]), controller.createUser);
 
 /**
  * @swagger
@@ -29,7 +28,7 @@ router.post("/", authorize(["ADMIN"]), controller.createUser);
  *       200:
  *         description: List of users
  */
-router.get("/", authorize(["ADMIN"]), controller.getUsers);
+router.get("/", authenticate, authorize(["ADMIN"]), controller.getUsers);
 
 /**
  * @swagger
@@ -49,7 +48,7 @@ router.get("/", authorize(["ADMIN"]), controller.getUsers);
  *       200:
  *         description: User updated
  */
-router.patch("/:id", authorize(["ADMIN"]), controller.updateUser);
+router.patch("/:id", authenticate, authorize(["ADMIN"]), controller.updateUser);
 
 /**
  * @swagger
@@ -69,6 +68,6 @@ router.patch("/:id", authorize(["ADMIN"]), controller.updateUser);
  *       200:
  *         description: User deleted
  */
-router.delete("/:id", authorize(["ADMIN"]), controller.deleteUser);
+router.delete("/:id", authenticate, authorize(["ADMIN"]), controller.deleteUser);
 
 module.exports = router;

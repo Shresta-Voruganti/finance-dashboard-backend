@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/dashboardController");
-const { authorize } = require("../middleware/auth");
+const { authenticate, authorize } = require("../middleware/auth");
 
 /**
  * @swagger
@@ -15,7 +15,7 @@ const { authorize } = require("../middleware/auth");
  *       200:
  *         description: Summary data
  */
-router.get("/summary", authorize(["ADMIN", "ANALYST", "VIEWER"]), controller.getSummary);
+router.get("/summary", authenticate,authorize(["ADMIN", "ANALYST", "VIEWER"]), controller.getSummary);
 
 /**
  * @swagger
@@ -29,7 +29,7 @@ router.get("/summary", authorize(["ADMIN", "ANALYST", "VIEWER"]), controller.get
  *       200:
  *         description: Category breakdown data
  */
-router.get("/categories", authorize(["ADMIN", "ANALYST"]), controller.getCategoryBreakdown);
+router.get("/categories", authenticate, authorize(["ADMIN", "ANALYST"]), controller.getCategoryBreakdown);
 
 /**
  * @swagger
@@ -43,7 +43,7 @@ router.get("/categories", authorize(["ADMIN", "ANALYST"]), controller.getCategor
  *       200:
  *         description: Recent activity
  */
-router.get("/recent", authorize(["ADMIN", "ANALYST"]), controller.getRecent);
+router.get("/recent", authenticate, authorize(["ADMIN", "ANALYST"]), controller.getRecent);
 
 /**
  * @swagger
@@ -59,6 +59,7 @@ router.get("/recent", authorize(["ADMIN", "ANALYST"]), controller.getRecent);
  */
 router.get(
   "/trends",
+  authenticate,
   authorize(["ADMIN", "ANALYST"]),
   controller.getTrends
 );
