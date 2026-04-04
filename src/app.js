@@ -30,6 +30,10 @@ app.use("/dashboard", dashboardRoutes);
 app.use("/auth", authRoutes);
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+app.get("/", (req, res) => {
+  res.send("Finance API is running");
+});
+
 
 // Error handler
 app.use((err, req, res, next) => {
