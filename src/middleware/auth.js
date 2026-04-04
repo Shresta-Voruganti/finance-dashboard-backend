@@ -11,6 +11,11 @@ const authenticate = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, SECRET);
     req.user = decoded;
+
+    if (req.user.status && req.user.status !== "ACTIVE") {
+        return res.status(403).json({ message: "User is inactive" });
+    }
+    
     next();
   } catch {
     res.status(401).json({ message: "Invalid token" });

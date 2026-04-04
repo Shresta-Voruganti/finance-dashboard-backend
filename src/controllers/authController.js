@@ -13,7 +13,7 @@ exports.register = async (req, res) => {
   const user = await prisma.user.create({
     data: { name, email, password: hashed, role }
   });
-  
+
   const { password: _, ...safeUser } = user;
   res.json(safeUser);
 };
@@ -29,7 +29,7 @@ exports.login = async (req, res) => {
   if (!valid) return res.status(401).json({ message: "Invalid credentials" });
 
   const token = jwt.sign(
-    { id: user.id, role: user.role },
+    { id: user.id, role: user.role, status: user.status },
     SECRET,
     { expiresIn: "1h" }
   );
