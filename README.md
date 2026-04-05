@@ -132,7 +132,7 @@ Provides aggregated insights:
 
 ### 1. Clone the repository
 
-git clone <your-repo-link>
+git clone <your-repo-link>  
 cd finance-dashboard-backend
 
 ---
